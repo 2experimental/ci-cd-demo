@@ -1,12 +1,24 @@
 
-def add(a, b):
-    return a + b
+name: Python Application
 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-def multiply(a, b):
-    return a * b
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-if __name__ == "__main__":
-    print("Addition:", add(15, 25))
-    print("Multiplication:", multiply(4, 6))
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Python tests
+        run: python -m unittest discover -s . -p "test_*.py"
